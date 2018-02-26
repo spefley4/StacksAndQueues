@@ -4,18 +4,18 @@
 #include <vector>
 
 bool balancesSymbols(std::string input) {
-	std::stack<char, std::deque> myStack;
+	std::stack<char, std::deque<char>> myStack;
 		
 	//From balance.cpp code sample
-	for (int i = 0; i < input.length; i++) {
+	for (auto it = input.begin(); it != input.end(); ++it) {
 		if(*it == '(' || *it == '[' || *it == '{') {
 			myStack.push(*it);
-			if (myStack.size() = 0) {
+			if (myStack.size() == 0) {
 				return false;
 			}
 		}
 		else {
-			if(*it == ')' && st.top() == ')'){
+			if(*it == ')' && myStack.top() == ')'){
 				myStack.pop();
 			}
 		}		
@@ -28,6 +28,39 @@ bool balancesSymbols(std::string input) {
 		return true;
 	}
 	
+}
+
+// From Stack Overflow 
+// https://stackoverflow.com/questions/12684086/convert-from-an-infix-expression-to-postfix-c-using-stacks
+bool isOperator(char x) {
+    switch (x) {
+    case '+':
+    case '-':
+    case '*':
+    case '/':
+    case '^':
+    case '%':
+        return true;
+    default:
+        return false;
+    }
+}
+
+// From Stack Overflow
+// https://stackoverflow.com/questions/12684086/convert-from-an-infix-expression-to-postfix-c-using-stacks
+bool precedence(char leftOperator, char rightOperator)
+{
+    if ( leftOperator == '^' ) {
+        return true;
+    } else if ( rightOperator == '^' ) {
+        return false;
+    } else if ( leftOperator == '*' || leftOperator == '/' || leftOperator == '%' ) {
+        return true;
+    } else if ( rightOperator == '*' || rightOperator == '/' || rightOperator == '%' ) {
+        return false;
+    }
+
+    return true;
 }
 
 std::string iToP(std::string input) {	
@@ -68,3 +101,4 @@ std::string iToP(std::string input) {
 			stack.pop();
 		}
 	}
+}
